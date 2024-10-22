@@ -1,0 +1,27 @@
+Chức năng chính:
++, Phần ADMIN (CRUD base)
++, Phần USER
+- Hiển thị danh sách sản phẩm
+- Tìm kiếm sản phẩm
+- Lọc sản phẩm
+- Thanh toán
+- Giỏ hàng
+- Xem chi tiết sản phẩm
+
+Thực thể
+USER: id, email, password, fullName, address, phone, avatar
+CART: id, sum
+CART_DETAIL: id, quantity, price
+ORDER: id, totalPrice, receiverName, receiverAddress, receiverPhone, status
+ORDER_DETAIL: id, quantity, price
+PRODUCT: id, name, price, image, detailDesc, shortDesc, quantity, sold, factory, target
+ROLE: id, name, description
+
+Relationship
++ CART 1 - 1 USER
++ CART 1 - N CART_DETAIL
++ CART_DETAIL N - 1 PRODUCT
++ USER 1 - N ORDER
++ ORDER 1 - N ORDER_DETAIL
++ PRODUCT 1 - N ORDER_DETAIL
++ ROLE 1 - N USER
