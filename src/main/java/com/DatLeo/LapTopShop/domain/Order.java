@@ -18,7 +18,6 @@ import java.util.*;;
 @Entity
 @Table(name = "orders")
 @Data
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Order {
     

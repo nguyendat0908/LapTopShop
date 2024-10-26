@@ -19,7 +19,6 @@ import java.util.*;
 @Entity
 @Table(name = "users")
 @Data
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class User {
 

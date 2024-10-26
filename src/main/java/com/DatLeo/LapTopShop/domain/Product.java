@@ -16,7 +16,6 @@ import java.util.*;
 @Entity
 @Table(name = "products")
 @Data
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Product {
     

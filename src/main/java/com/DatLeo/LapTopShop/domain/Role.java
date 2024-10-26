@@ -16,7 +16,6 @@ import java.util.*;
 @Entity
 @Table(name = "roles")
 @Data
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Role {
     

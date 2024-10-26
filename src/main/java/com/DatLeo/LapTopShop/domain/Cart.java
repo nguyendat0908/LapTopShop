@@ -18,7 +18,6 @@ import java.util.*;
 @Entity
 @Table(name = "carts")
 @Data
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class Cart {
 

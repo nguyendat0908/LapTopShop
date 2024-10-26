@@ -15,7 +15,6 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @Table(name = "order_details")
 @Data
-@AllArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderDetail {
     
