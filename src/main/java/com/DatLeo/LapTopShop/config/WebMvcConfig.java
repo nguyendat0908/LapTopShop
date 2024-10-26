@@ -1,4 +1,4 @@
-package com.datLeo.LapTopShop.config;
+package com.DatLeo.LapTopShop.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

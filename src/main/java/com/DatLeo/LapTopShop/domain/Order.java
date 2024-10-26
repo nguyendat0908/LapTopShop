@@ -1,4 +1,4 @@
-package com.datLeo.LapTopShop.domain;
+package com.DatLeo.LapTopShop.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -23,7 +23,7 @@ import java.util.*;;
 public class Order {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     double totalPrice;
     String receiverName;

@@ -1,4 +1,4 @@
-package com.datLeo.LapTopShop.domain;
+package com.DatLeo.LapTopShop.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -20,7 +20,7 @@ import lombok.experimental.FieldDefaults;
 public class OrderDetail {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
     long quantity;
     double price;
