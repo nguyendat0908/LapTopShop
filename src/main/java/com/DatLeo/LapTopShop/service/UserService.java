@@ -30,5 +30,9 @@ public class UserService {
     public Page<User> getAllUserPage(Pageable pageable){
         return this.userRepository.findAll(pageable);
     }
+
+    public User getUserById(long id){
+        return this.userRepository.findById(id);
+    }
     
 }

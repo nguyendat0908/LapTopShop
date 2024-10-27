@@ -38,12 +38,12 @@
                     <div class="container mt-5">
                         <div class="row">
                             <div class="col-12 mx-auto">
-                                <div class="d-flex justify-content-between">
-                                    <h4>User detail with ID: ${id}</h4>
-                                </div>
-                                <hr>
+                                <div class="card" style="width: 70%;">
+                                    <div class="d-flex justify-content-between">
+                                        <h4>User detail with ID: ${id}</h4>
+                                    </div>
+                                    <hr>
                 
-                                <div class="card">
                                     <div class="card-header">
                                         User Information
                                     </div>
@@ -53,7 +53,8 @@
                                         <li class="list-group-item">Full Name: ${user.fullName}</li>
                                         <li class="list-group-item">Role: ${user.role.name}</li>
                                         <li class="list-group-item">Address: ${user.address}</li>
-                                        <li class="list-group-item">Avatar: ${user.avatar}</li>
+                                        <li class="list-group-item">Avatar</li>
+                                        <img src="/images/avatar/${user.avatar}" alt="Image Preview" class="img-thumbnail" style="max-width: 50%; max-height: 50%; object-fit: cover;">
                                     </ul>
                                 </div>
                 

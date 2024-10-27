@@ -4,6 +4,10 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +20,7 @@ public class UploadFileService {
 
     private final ServletContext servletContext;
 
-    public String handleSaveUploadFile(MultipartFile file, String targetFolder){
+    public String handleSaveUploadFile(MultipartFile file, String targetFolder) {
 
         // Khong upload file
         if (file.isEmpty()) {
@@ -47,12 +51,32 @@ public class UploadFileService {
             stream.write(bytes);
             stream.close();
 
-
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return fileName;
     }
-    
+
+    public void deleteFile(String filePath) {
+        try {
+            Path path = Paths.get(filePath);
+            if (Files.exists(path)) {
+                System.out.println("Deleting file: " + filePath);
+                Files.delete(path);
+                System.out.println("File deleted successfully: " + filePath);
+            } else {
+                System.out.println("File not found" + filePath);
+            }
+        } catch (Exception e) {
+            System.err.println("Error deleting file: " + filePath);
+            e.printStackTrace();
+        }
+    }
+
+    // Method return path cho file
+    public String getFullPathFile(String fileName, String targetFolder) {
+        return servletContext.getRealPath("/resources/images/" + targetFolder + "/" + fileName);
+    }
+
 }

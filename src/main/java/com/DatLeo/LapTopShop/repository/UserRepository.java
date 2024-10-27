@@ -7,9 +7,12 @@ import org.springframework.stereotype.Repository;
 
 import com.DatLeo.LapTopShop.domain.User;
 
+
 @Repository
 public interface UserRepository extends JpaRepository<User , Long> {
     
     Page<User> findAll(Pageable pageable);
+
+    User findById(long id);
     
 }

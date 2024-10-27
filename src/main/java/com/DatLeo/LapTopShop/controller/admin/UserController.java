@@ -11,14 +11,18 @@ import com.DatLeo.LapTopShop.domain.User;
 import com.DatLeo.LapTopShop.service.UploadFileService;
 import com.DatLeo.LapTopShop.service.UserService;
 
+import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 @Controller
@@ -77,6 +81,61 @@ public class UserController {
 
         return "admin/user/show";
     }
+    
+    // Get detail user page
+    @GetMapping("/admin/user/{id}")
+    public String getDetailUserPage(Model model, @PathVariable long id) {
+
+        User user = this.userService.getUserById(id);
+        model.addAttribute("user", user);
+
+        return "admin/user/detailUser";
+    }
+
+    // Get update user page
+    @GetMapping("/admin/user/update/{id}")
+    public String getUpdateUserPage(Model model, @PathVariable long id) {
+
+        User currentUser = this.userService.getUserById(id);
+        model.addAttribute("newUser", currentUser);
+
+        return "admin/user/update";
+    }
+
+    // Update user
+    @PostMapping("/admin/user/update")
+    public String postUpdateUser(@ModelAttribute("newUser") User user, @RequestParam("uploadFile") MultipartFile file) {
+
+        User currentUser = this.userService.getUserById(user.getId());
+        if (currentUser != null) {
+
+            // Get path old avatar
+            String oldPathAvatar = currentUser.getAvatar();
+
+            // Get full path
+            String fullOldPathAvatar = this.uploadFileService.getFullPathFile(oldPathAvatar, "avatar");
+            System.out.println("Full Old Path Avatar: " + fullOldPathAvatar);
+
+            if (!file.isEmpty()) {
+                
+                this.uploadFileService.deleteFile(fullOldPathAvatar);
+
+                String img = this.uploadFileService.handleSaveUploadFile(file, "avatar");
+                currentUser.setAvatar(img);
+            }
+
+            currentUser.setFullName(user.getFullName());
+            currentUser.setPassword(user.getPassword());
+            currentUser.setPhone(user.getPhone());
+            currentUser.setAddress(user.getAddress());
+
+            this.userService.handleSaveUser(currentUser);
+        }
+
+        return "redirect:/admin/user";
+    }
+    
+    
     
     
 }
