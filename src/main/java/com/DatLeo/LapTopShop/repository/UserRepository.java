@@ -10,6 +10,6 @@ import com.DatLeo.LapTopShop.domain.User;
 @Repository
 public interface UserRepository extends JpaRepository<User , Long> {
     
-    Page<User> getAllUser(Pageable pageable);
+    Page<User> findAll(Pageable pageable);
     
 }

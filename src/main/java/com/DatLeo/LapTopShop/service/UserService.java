@@ -1,5 +1,7 @@
 package com.DatLeo.LapTopShop.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.DatLeo.LapTopShop.domain.Role;
@@ -23,6 +25,10 @@ public class UserService {
 
     public Role getRoleByName(String name){
         return this.roleRepository.findRoleByName(name);
+    }
+
+    public Page<User> getAllUserPage(Pageable pageable){
+        return this.userRepository.findAll(pageable);
     }
     
 }

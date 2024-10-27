@@ -1,5 +1,8 @@
-package com.DatLeo.LapTopShop.controller;
+package com.DatLeo.LapTopShop.controller.admin;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,9 +15,10 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.*;
 
 
 @Controller
@@ -25,6 +29,7 @@ public class UserController {
     private final UploadFileService uploadFileService;
     private final PasswordEncoder passwordEncoder;
 
+    // Get create user page
     @GetMapping("/admin/user/create")
     public String getCreateUserPage(Model model) {
 
@@ -33,8 +38,9 @@ public class UserController {
         return "admin/user/create";
     }
 
+    // Save user
     @PostMapping("/admin/user/create")
-    public String postCreateUser(@ModelAttribute("newUser") User user, MultipartFile file) {
+    public String postCreateUser(@ModelAttribute("newUser") User user,@RequestParam("uploadFile") MultipartFile file) {
 
         String hashPassword = this.passwordEncoder.encode(user.getPassword());
         String avatar = this.uploadFileService.handleSaveUploadFile(file, "avatar");
@@ -45,7 +51,31 @@ public class UserController {
 
         this.userService.handleSaveUser(user);
 
-        return "redirect:admin/user";
+        return "redirect:/admin/user";
+    }
+    
+    // Get all user page
+    @GetMapping("/admin/user")
+    public String getAllUserPage(Model model, @RequestParam("page") Optional<String> pageOptional) {
+
+        int page = 1;
+        try {
+            if (pageOptional.isPresent()) {
+                page = Integer.parseInt(pageOptional.get());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        Pageable pageable = PageRequest.of(page - 1, 10);
+        Page<User> users = this.userService.getAllUserPage(pageable);
+        List<User> listUsers = users.getContent();
+
+        model.addAttribute("users", listUsers);
+        model.addAttribute("totalPages", users.getTotalPages());
+        model.addAttribute("currentPage", page);
+
+        return "admin/user/show";
     }
     
     
