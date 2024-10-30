@@ -11,7 +11,6 @@ import com.DatLeo.LapTopShop.domain.User;
 import com.DatLeo.LapTopShop.service.UploadFileService;
 import com.DatLeo.LapTopShop.service.UserService;
 
-import jakarta.websocket.server.PathParam;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -21,9 +20,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
-import org.springframework.web.bind.annotation.RequestBody;
-
-
 
 @Controller
 @AllArgsConstructor
@@ -134,8 +130,23 @@ public class UserController {
 
         return "redirect:/admin/user";
     }
+
+    // Delete User Page
+    @GetMapping("/admin/user/delete/{id}")
+    public String getDeleteUserPage(Model model, @PathVariable long id) {
+
+        model.addAttribute("id", id);
+        model.addAttribute("newUser", new User());
+        return "admin/user/delete";
+    }
     
-    
+    // Delete User
+    @PostMapping("/admin/user/delete")
+    public String postDeleteUser(Model model, @ModelAttribute("newUser") User user) {
+
+        this.userService.deleteUserById(user.getId());
+        return "redirect:/admin/user";
+    }
     
     
 }
