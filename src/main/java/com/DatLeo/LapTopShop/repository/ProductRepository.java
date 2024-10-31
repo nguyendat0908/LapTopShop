@@ -7,8 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import com.DatLeo.LapTopShop.domain.Product;
 
+
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     
     Page<Product> findAll(Pageable pageable);
+
+    Product findById(long id);
 }

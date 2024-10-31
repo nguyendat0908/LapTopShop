@@ -13,6 +13,7 @@ import com.DatLeo.LapTopShop.service.UploadFileService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -90,6 +91,15 @@ public class ProductController {
     }
 
     // View Detail Product
+    @GetMapping("/admin/product/{id}")
+    public String getViewDetailProduct(Model model, @PathVariable long id) {
+
+        Product product = this.productService.getProductById(id);
+
+        model.addAttribute("product", product);
+
+        return "admin/product/detailProduct";
+    }
     
 
 }

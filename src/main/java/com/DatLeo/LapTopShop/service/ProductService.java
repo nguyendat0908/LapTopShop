@@ -39,4 +39,8 @@ public class ProductService {
         return this.productRepository.save(product);
     }
 
+    public Product getProductById(long id){
+        return this.productRepository.findById(id);
+    }
+
 }
