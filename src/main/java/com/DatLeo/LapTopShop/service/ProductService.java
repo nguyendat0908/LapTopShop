@@ -3,6 +3,8 @@ package com.DatLeo.LapTopShop.service;
 import java.io.File;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.DatLeo.LapTopShop.domain.Product;
@@ -27,6 +29,14 @@ public class ProductService {
                         .constructCollectionType(List.class, Product.class));
 
         this.productRepository.saveAll(products);
+    }
+
+    public Page<Product> getAllProductPage(Pageable pageable){
+        return this.productRepository.findAll(pageable);
+    }
+
+    public Product handleSaveProduct(Product product){
+        return this.productRepository.save(product);
     }
 
 }
