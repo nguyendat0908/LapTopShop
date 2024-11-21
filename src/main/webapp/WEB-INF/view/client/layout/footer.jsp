@@ -8,8 +8,8 @@
             <div class="row g-4">
                 <div class="col-lg-3">
                     <a href="#">
-                        <h1 class="text-primary mb-0">Fruitables</h1>
-                        <p class="text-secondary mb-0">Fresh products</p>
+                        <h1 class="text-primary mb-0">Laptop Shop</h1>
+                        <p class="text-secondary mb-0">Công nghệ vượt bậc</p>
                     </a>
                 </div>
                 <div class="col-lg-3">
@@ -25,9 +25,10 @@
         <div class="row g-5">
             <div class="col-lg-3 col-md-6">
                 <div class="footer-item">
-                    <h4 class="text-light mb-3">Why People Like us!</h4>
-                    <p class="mb-4">typesetting, remaining essentially unchanged. It was 
-                        popularised in the 1960s with the like Aldus PageMaker including of Lorem Ipsum.</p>
+                    <h4 class="text-light mb-3">Laptop Shop</h4>
+                    <p class="mb-4">Không chỉ dừng lại ở việc bán sản phẩm, Laptop Shop còn mang đến dịch vụ hậu mãi chuyên nghiệp, 
+                        bao gồm bảo hành, bảo trì và tư vấn kỹ thuật miễn phí. Đội ngũ nhân viên tận tâm luôn sẵn sàng hỗ trợ bạn lựa 
+                        chọn chiếc laptop phù hợp nhất.</p>
                     <a href="" class="btn border-secondary py-2 px-4 rounded-pill text-primary">Read More</a>
                 </div>
             </div>

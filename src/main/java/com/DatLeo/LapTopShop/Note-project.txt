@@ -25,3 +25,4 @@ Relationship
 + ORDER 1 - N ORDER_DETAIL
 + PRODUCT 1 - N ORDER_DETAIL
 + ROLE 1 - N USER
+
