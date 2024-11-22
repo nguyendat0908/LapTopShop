@@ -29,39 +29,34 @@
                     <p class="mb-4">Không chỉ dừng lại ở việc bán sản phẩm, Laptop Shop còn mang đến dịch vụ hậu mãi chuyên nghiệp, 
                         bao gồm bảo hành, bảo trì và tư vấn kỹ thuật miễn phí. Đội ngũ nhân viên tận tâm luôn sẵn sàng hỗ trợ bạn lựa 
                         chọn chiếc laptop phù hợp nhất.</p>
-                    <a href="" class="btn border-secondary py-2 px-4 rounded-pill text-primary">Read More</a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="d-flex flex-column text-start footer-item">
-                    <h4 class="text-light mb-3">Shop Info</h4>
+                    <h4 class="text-light mb-3">Thông tin</h4>
                     <a class="btn-link" href="">About Us</a>
                     <a class="btn-link" href="">Contact Us</a>
-                    <a class="btn-link" href="">Privacy Policy</a>
-                    <a class="btn-link" href="">Terms & Condition</a>
-                    <a class="btn-link" href="">Return Policy</a>
-                    <a class="btn-link" href="">FAQs & Help</a>
+                    <a class="btn-link" href="">Chính sách</a>
+                    <a class="btn-link" href="">Điều khoản & Điều kiện</a>
+                    <a class="btn-link" href="">FAQs & Trợ giúp</a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="d-flex flex-column text-start footer-item">
-                    <h4 class="text-light mb-3">Account</h4>
-                    <a class="btn-link" href="">My Account</a>
-                    <a class="btn-link" href="">Shop details</a>
-                    <a class="btn-link" href="">Shopping Cart</a>
-                    <a class="btn-link" href="">Wishlist</a>
-                    <a class="btn-link" href="">Order History</a>
-                    <a class="btn-link" href="">International Orders</a>
+                    <h4 class="text-light mb-3">Theo dõi</h4>
+                    <a class="btn-link" href="">Twitter</a>
+                    <a class="btn-link" href="">Pinterest</a>
+                    <a class="btn-link" href="">Instagram</a>
+                    <a class="btn-link" href="">Facebook</a>
+                    <a class="btn-link" href="">Youtobe</a>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="footer-item">
-                    <h4 class="text-light mb-3">Contact</h4>
-                    <p>Address: 1429 Netus Rd, NY 48247</p>
-                    <p>Email: Example@gmail.com</p>
-                    <p>Phone: +0123 4567 8910</p>
-                    <p>Payment Accepted</p>
-                    <img src="img/payment.png" class="img-fluid" alt="">
+                    <h4 class="text-light mb-3">Liên hệ</h4>
+                    <p>Địa chỉ: Tiền Hải, Thái Bình, Việt Nam</p>
+                    <p>Email: DatLeo@gmail.com</p>
+                    <p>Điện thoại: +0123 4567 8910</p>
                 </div>
             </div>
         </div>
@@ -73,10 +68,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
-                <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Your Site Name</a>, All right reserved.</span>
-            </div>
-            <div class="col-md-6 my-auto text-center text-md-end text-white">
-                Designed By <a class="border-bottom" href="https://htmlcodex.com">HTML Codex</a> Distributed By <a class="border-bottom" href="https://themewagon.com">ThemeWagon</a>
+                <span class="text-light"><a href="#"><i class="fas fa-copyright text-light me-2"></i>Laptop Shop</a>, 2024</span>
             </div>
         </div>
     </div>

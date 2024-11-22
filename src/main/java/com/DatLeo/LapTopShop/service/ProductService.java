@@ -19,6 +19,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
+    // Json to Data
     public void ImportDataToJson(String filePath) throws Exception {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -31,18 +32,22 @@ public class ProductService {
         this.productRepository.saveAll(products);
     }
 
+    // Get all product with pagination
     public Page<Product> getAllProductPage(Pageable pageable){
         return this.productRepository.findAll(pageable);
     }
 
+    // Save product
     public Product handleSaveProduct(Product product){
         return this.productRepository.save(product);
     }
 
+    // Get product by id
     public Product getProductById(long id){
         return this.productRepository.findById(id);
     }
 
+    // Delete product by id
     public void deleteProductById(long id){
         this.productRepository.deleteById(id);
     }
