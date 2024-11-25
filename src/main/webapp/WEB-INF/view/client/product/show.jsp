@@ -55,7 +55,7 @@
         <!-- Single Page Header start -->
         <div class="container-fluid page-header py-5">
             <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item"><a href="#">Trang chủ</a></li>
+                <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
                 <li class="breadcrumb-item active text-black">Cửa hàng</li>
             </ol>
         </div>
