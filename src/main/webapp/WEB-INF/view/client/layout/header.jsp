@@ -21,7 +21,7 @@
                 <div class="navbar-nav mx-auto">
                     <a href="/" class="nav-item nav-link active">Trang Chủ</a>
                     <a href="/products" class="nav-item nav-link">Cửa hàng</a>
-                    <a href="contact.html" class="nav-item nav-link">Liên Hệ</a>
+                    <a href="/contact" class="nav-item nav-link">Liên Hệ</a>
                 </div>
                 <div class="d-flex m-3 me-0">
                     <a href="#" class="position-relative me-4 my-auto">

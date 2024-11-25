@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.DatLeo.LapTopShop.domain.Product;
 import com.DatLeo.LapTopShop.service.ProductService;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @Controller
@@ -36,5 +38,17 @@ public class ItemController {
 
         return "client/product/productDetail";
     }
+
+    @GetMapping("/contact")
+    public String getMethodName(Model model) {
+
+        // Tọa độ vị trí
+        model.addAttribute("latitude", "20.3437133");
+        model.addAttribute("longitude", "106.4767506");
+        model.addAttribute("apiKey", "AIzaSyBOmMMUtdp4twr2nLY9DFmNKSZU7qxLF2s");
+
+        return "client/contact/shopContact";
+    }
+    
     
 }
