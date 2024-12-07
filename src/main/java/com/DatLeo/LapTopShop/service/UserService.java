@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.DatLeo.LapTopShop.domain.Role;
 import com.DatLeo.LapTopShop.domain.User;
+import com.DatLeo.LapTopShop.domain.dto.RegisterDTO;
 import com.DatLeo.LapTopShop.repository.RoleRepository;
 import com.DatLeo.LapTopShop.repository.UserRepository;
 
@@ -37,6 +38,17 @@ public class UserService {
 
     public void deleteUserById(long id){
         this.userRepository.deleteById(id);
+    }
+
+    public User registerDTOtoUser(RegisterDTO registerDTO){
+        
+        User user = new User();
+
+        user.setFullName(registerDTO.getFirstName() + " " + registerDTO.getLastName());
+        user.setEmail(registerDTO.getEmail());
+        user.setPassword(registerDTO.getPassword());
+
+        return user;
     }
     
 }

@@ -280,6 +280,7 @@
                                                                 value="${product.price}" />
                                                             đ
                                                         </p>
+                                                        <p style="font-size: 13px;" class="text-primary">Sản phẩm còn lại ${product.sold - product.quantity}</p>
                                                         <form action="/add-product-to-cart/${product.id}"
                                                             method="post">
                                                             <input type="hidden" name="${_csrf.parameterName}"
