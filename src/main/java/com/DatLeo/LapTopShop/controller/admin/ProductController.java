@@ -5,11 +5,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import com.DatLeo.LapTopShop.domain.Product;
 import com.DatLeo.LapTopShop.service.ProductService;
 import com.DatLeo.LapTopShop.service.UploadFileService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -80,7 +82,11 @@ public class ProductController {
 
     // Create Product
     @PostMapping("/admin/product/create")
-    public String PostCreateProduct(Model model, @ModelAttribute("newProduct") Product product, @RequestParam("uploadFile") MultipartFile file) {
+    public String PostCreateProduct(Model model, @ModelAttribute("newProduct") @Valid Product product, BindingResult newProductBindingResult, @RequestParam("uploadFile") MultipartFile file) {
+
+        if (newProductBindingResult.hasErrors()) {
+            return "admin/product/create";
+        }
 
         String image = this.uploadFileService.handleSaveUploadFile(file, "product");
     

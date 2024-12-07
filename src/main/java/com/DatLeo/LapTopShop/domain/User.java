@@ -13,7 +13,13 @@ import lombok.AccessLevel;
 import lombok.Data;
 import lombok.experimental.FieldDefaults;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
+
 import java.util.*;
+
+import com.DatLeo.LapTopShop.service.validator.StrongPassword;
 
 @Entity
 @Table(name = "users")
@@ -24,9 +30,20 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
+
+    @NotNull
+    @Email(message = "Email không đúng định dạng", regexp = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$")
     String email;
+
+    // @NotNull
+    // @Size(min = 2, message = "Password phải có tối thiểu 2 ký tự")
+    @StrongPassword
     String password;
+
+    @NotNull
+    @Size(min = 2, message = "Tên phải có tối thiểu 2 ký tự")
     String fullName;
+
     String address;
     String phone;
     String avatar;

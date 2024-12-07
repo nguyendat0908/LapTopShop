@@ -41,7 +41,7 @@ public class UserService {
     }
 
     public User registerDTOtoUser(RegisterDTO registerDTO){
-        
+
         User user = new User();
 
         user.setFullName(registerDTO.getFirstName() + " " + registerDTO.getLastName());
@@ -49,6 +49,10 @@ public class UserService {
         user.setPassword(registerDTO.getPassword());
 
         return user;
+    }
+    // Check email exist
+    public boolean checkEmailExist(String email){
+        return this.userRepository.existsByEmail(email);
     }
     
 }

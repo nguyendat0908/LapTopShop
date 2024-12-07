@@ -6,11 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 
 import com.DatLeo.LapTopShop.domain.User;
 import com.DatLeo.LapTopShop.service.UploadFileService;
 import com.DatLeo.LapTopShop.service.UserService;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,7 +42,11 @@ public class UserController {
 
     // Save user
     @PostMapping("/admin/user/create")
-    public String postCreateUser(@ModelAttribute("newUser") User user,@RequestParam("uploadFile") MultipartFile file) {
+    public String postCreateUser(@ModelAttribute("newUser") @Valid User user, BindingResult newUserBindingResult, @RequestParam("uploadFile") MultipartFile file) {
+
+        if (newUserBindingResult.hasErrors()) {
+            return "admin/user/create";
+        }
 
         String hashPassword = this.passwordEncoder.encode(user.getPassword());
         String avatar = this.uploadFileService.handleSaveUploadFile(file, "avatar");
