@@ -104,7 +104,7 @@
                                                     </div>
                                                     <div class="text-white bg-secondary px-3 py-1 rounded position-absolute" style="top: 10px; left: 10px;">${product.factory}</div>
                                                     <div class="p-4 border border-secondary border-top-0 rounded-bottom">
-                                                        <a href="#">
+                                                        <a href="/product/${product.id}">
                                                             <h4 style="font-size: 15px;">${product.name}</h4>
                                                         </a>
                                                         <p style="font-size: 13px;">${product.shortDesc}</p>
@@ -143,7 +143,7 @@
                             </div>
                             <div class="text-white bg-primary px-3 py-1 rounded position-absolute" style="top: 10px; right: 10px;">${product.factory}</div>
                             <div class="p-4 rounded-bottom">
-                                <a href="#">
+                                <a href="/product/${product.id}">
                                     <h4 style="font-size: 15px;">${product.name}</h4>
                                 </a>
                                 <p style="font-size: 13px;">${product.shortDesc}</p>

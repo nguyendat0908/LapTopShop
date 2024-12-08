@@ -15,7 +15,7 @@ public class DashboardController {
     
     private final DashboardService dashboardService;
 
-    @GetMapping("/admin/dashboard")
+    @GetMapping("/admin")
     public String getDashboardPage(Model model) {
 
         long countProduct = this.dashboardService.countProducts();

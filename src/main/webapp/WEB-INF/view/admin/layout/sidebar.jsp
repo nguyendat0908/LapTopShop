@@ -82,9 +82,9 @@
                 data-bs-parent="#sidenavAccordionPages"
               >
                 <nav class="sb-sidenav-menu-nested nav">
-                  <a class="nav-link" href="login.html">Login</a>
-                  <a class="nav-link" href="register.html">Register</a>
-                  <a class="nav-link" href="password.html"
+                  <a class="nav-link" href="/login">Login</a>
+                  <a class="nav-link" href="/register">Register</a>
+                  <a class="nav-link" href="#"
                     >Forgot Password</a
                   >
                 </nav>
@@ -114,7 +114,7 @@
                   <a class="nav-link" href="500.html">500 Page</a>
                 </nav>
               </div>
-              <a class="nav-link collapsed" href="#"> HomePage </a>
+              <a class="nav-link collapsed" href="/"> HomePage </a>
             </nav>
           </div>
         </div>
