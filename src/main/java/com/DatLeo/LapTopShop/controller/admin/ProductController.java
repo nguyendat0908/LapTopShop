@@ -101,7 +101,7 @@ public class ProductController {
     @GetMapping("/admin/product/{id}")
     public String getViewDetailProduct(Model model, @PathVariable long id) {
 
-        Product product = this.productService.getProductById(id);
+        Product product = this.productService.getProductById(id).get();
 
         model.addAttribute("product", product);
 
@@ -112,7 +112,7 @@ public class ProductController {
     @GetMapping("/admin/product/update/{id}")
     public String getUpdateProductPage(Model model, @PathVariable long id) {
 
-        Product product = this.productService.getProductById(id);
+        Product product = this.productService.getProductById(id).get();
         model.addAttribute("newProduct", product);
 
         return "admin/product/update";
@@ -122,7 +122,7 @@ public class ProductController {
     @PostMapping("/admin/product/update")
     public String postUpdateProduct(Model model, @ModelAttribute("newProduct") Product product, @RequestParam("uploadFile") MultipartFile file) {
 
-        Product currentProduct = this.productService.getProductById(product.getId());
+        Product currentProduct = this.productService.getProductById(product.getId()).get();
 
         if (currentProduct != null) {
             

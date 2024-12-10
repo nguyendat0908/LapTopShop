@@ -17,6 +17,7 @@ import com.DatLeo.LapTopShop.repository.CartRepository;
 import com.DatLeo.LapTopShop.repository.ProductRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -62,7 +63,7 @@ public class ProductService {
     }
 
     // Add product to cart
-    public void handleAddProductToCart(String email, long productID){
+    public void handleAddProductToCart(String email, long productID, HttpSession session){
 
         // Check user đã có cart hay chưa -> Chưa có thì tạo mới
         User user = this.userService.getUserByEmail(email);
@@ -74,7 +75,7 @@ public class ProductService {
                 // Tạo mới cart
                 Cart otherCart = new Cart();
                 otherCart.setUser(user);
-                otherCart.setSum(1);
+                otherCart.setSum(0);
 
                 this.cartRepository.save(otherCart);
             }
@@ -85,13 +86,29 @@ public class ProductService {
             if (p.isPresent()) {
                 Product realProduct = p.get();
 
-                CartDetail cartDetail = new CartDetail();
-                cartDetail.setCart(cart);
-                cartDetail.setProduct(realProduct);
-                cartDetail.setPrice(realProduct.getPrice());
-                cartDetail.setQuantity(1);
+                // Check sản phẩm đã từng được thêm vào giỏ hàng trước đây chưa?
+                CartDetail oldDetail = this.cartDetailRepository.findByCartAndProduct(cart, realProduct);
 
-                this.cartDetailRepository.save(cartDetail);
+                if (oldDetail == null) {
+                    
+                    CartDetail cartDetail = new CartDetail();
+                    cartDetail.setCart(cart);
+                    cartDetail.setProduct(realProduct);
+                    cartDetail.setPrice(realProduct.getPrice());
+                    cartDetail.setQuantity(1);
+    
+                    this.cartDetailRepository.save(cartDetail);
+
+                    // Update cart (sum)
+                    int s = cart.getSum() + 1;
+                    cart.setSum(s);
+                    this.cartRepository.save(cart);
+                    session.setAttribute("sum", s);
+                } else {
+                    oldDetail.setQuantity(oldDetail.getQuantity() + 1);
+                    this.cartDetailRepository.save(oldDetail);
+                }
+
             }
             
         }

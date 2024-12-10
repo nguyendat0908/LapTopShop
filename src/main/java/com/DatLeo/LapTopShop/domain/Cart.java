@@ -23,7 +23,7 @@ public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
-    long sum;
+    int sum;
     
     // CART one -> to one USER
     @OneToOne
