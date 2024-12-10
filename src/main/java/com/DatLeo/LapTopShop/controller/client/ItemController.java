@@ -22,6 +22,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
 
 
 
@@ -69,7 +71,12 @@ public class ItemController {
         String email = (String) session.getAttribute("email");
         this.productService.handleAddProductToCart(email, productId, session);
 
-        return "redirect:/";
+        // Quay trở lại trang gốc
+        String referer = request.getHeader("Referer");
+        if (referer == null || referer.isEmpty()) {
+            referer = "/";
+        }
+        return "redirect:" + referer;
     }
 
     @GetMapping("/cart")
@@ -95,5 +102,16 @@ public class ItemController {
 
         return "client/cart/show";
     }
+
+    @PostMapping("/delete-cart-product/{id}")
+    public String deleteCartProduct(Model model, @PathVariable long id, HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+
+        long cartDetailID = id;
+        this.productService.handleRemoveCartDetail(cartDetailID, session);
+        
+        return "redirect:/cart";
+    }
+    
     
 }

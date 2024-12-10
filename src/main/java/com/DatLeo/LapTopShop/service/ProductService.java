@@ -118,4 +118,28 @@ public class ProductService {
         return this.cartRepository.findByUser(user);
     }
 
+    public void handleRemoveCartDetail(long cartDetailID, HttpSession session){
+
+        // Tìm cartDetail dựa trên ID
+        Optional<CartDetail> cartDetailOptional = this.cartDetailRepository.findById(cartDetailID);
+
+        if (cartDetailOptional.isPresent()) {
+            CartDetail cartDetail = cartDetailOptional.get();
+
+            Cart currentCart = cartDetail.getCart();
+
+            // Xóa
+            this.cartDetailRepository.deleteById(cartDetailID);
+
+            if (currentCart.getSum() > 1) {
+                int s = currentCart.getSum() - 1;
+                currentCart.setSum(s);
+                session.setAttribute("sum", s);
+            } else {
+                this.cartRepository.deleteById(currentCart.getId());
+                session.setAttribute("sum", 0);
+            }
+        }
+    }
+
 }
