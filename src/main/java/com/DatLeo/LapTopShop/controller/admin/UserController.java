@@ -127,7 +127,6 @@ public class UserController {
             }
 
             currentUser.setFullName(user.getFullName());
-            currentUser.setPassword(user.getPassword());
             currentUser.setPhone(user.getPhone());
             currentUser.setAddress(user.getAddress());
 

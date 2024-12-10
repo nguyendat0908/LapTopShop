@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -12,12 +13,18 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
+import com.DatLeo.LapTopShop.domain.User;
+import com.DatLeo.LapTopShop.service.UserService;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 public class CustomSuccessHandler implements AuthenticationSuccessHandler {
+
+    @Autowired
+    private UserService userService;
 
     protected String determineTargetUrl(final Authentication authentication) {
 
@@ -40,12 +47,22 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
     }
 
      // Dọn dẹp session tăng hiệu năng
-    protected void clearAuthenticationAttributes(HttpServletRequest request) {
+    protected void clearAuthenticationAttributes(HttpServletRequest request, Authentication authentication) {
         HttpSession session = request.getSession(false);
         if (session == null) {
             return;
         }
         session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+        // Lấy thông tin email người dùng đã đăng nhập
+        String email = authentication.getName();
+
+        // Lấy thông tin người dùng bằng email
+        User user = this.userService.getUserByEmail(email);
+
+        if (email != null) {
+            session.setAttribute("fullName", user.getFullName());
+            session.setAttribute("avatar", user.getAvatar());
+        }
         
     }
 
@@ -63,7 +80,7 @@ public class CustomSuccessHandler implements AuthenticationSuccessHandler {
                 }
 
                 redirectStrategy.sendRedirect(request, response, targetUrl);
-                clearAuthenticationAttributes(request);
+                clearAuthenticationAttributes(request, authentication);
     }
     
 }
