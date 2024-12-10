@@ -220,6 +220,38 @@
         }
     });
 
+    // Check checkbox payment
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     const productCheckboxes = document.querySelectorAll(".product-checkbox");
+    //     const totalPriceElement = document.querySelector("p[data-cart-total-price]");
+
+    //     // Hàm tính tổng tiền dựa trên các sản phẩm được chọn
+    //     function calculateTotalPrice() {
+    //         let total = 0;
+
+    //         productCheckboxes.forEach((checkbox) => {
+    //             if (checkbox.checked) {
+    //                 const price = parseFloat(checkbox.getAttribute("data-price"));
+    //                 const quantity = parseInt(checkbox.getAttribute("data-quantity"), 10);
+    //                 total += price * quantity;
+    //             }
+    //         });
+
+    //         // Cập nhật hiển thị tổng tiền
+    //         if (totalPriceElement) {
+    //             totalPriceElement.textContent = formatCurrency(total.toFixed(2)) + " đ";
+    //             totalPriceElement.setAttribute("data-cart-total-price", total); // Cập nhật thuộc tính data
+    //         }
+    //     }
+
+    //     // Lắng nghe sự thay đổi của checkbox
+    //     productCheckboxes.forEach((checkbox) => {
+    //         checkbox.addEventListener("change", calculateTotalPrice);
+    //     });
+
+    //     // Khởi tạo tính tổng tiền lần đầu (nếu cần)
+    //     calculateTotalPrice();
+    // });
     function formatCurrency(value) {
         // Use the 'vi-VN' locale to format the number according to Vietnamese currency format
         // and 'VND' as the currency type for Vietnamese đồng

@@ -1,5 +1,7 @@
 package com.DatLeo.LapTopShop.controller.client;
 
+import java.net.http.HttpRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.data.domain.Page;
@@ -10,15 +12,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.DatLeo.LapTopShop.domain.Cart;
+import com.DatLeo.LapTopShop.domain.CartDetail;
 import com.DatLeo.LapTopShop.domain.Product;
+import com.DatLeo.LapTopShop.domain.User;
 import com.DatLeo.LapTopShop.service.ProductService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 
 
 
@@ -70,11 +73,27 @@ public class ItemController {
     }
 
     @GetMapping("/cart")
-    public String getCartPage(Model model) {
+    public String getCartPage(Model model, HttpServletRequest request) {
+
+        User currentUser = new User(); 
+        HttpSession session = request.getSession(false);
+        long id = (long) session.getAttribute("id");
+        currentUser.setId(id);
+
+        Cart cart = this.productService.fetchByUser(currentUser);
+
+        List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
+
+        double totalPrice = 0;
+        for (CartDetail cartDetail : cartDetails) {
+            totalPrice += cartDetail.getPrice() * cartDetail.getQuantity();
+        }
+
+        model.addAttribute("cartDetails", cartDetails);
+        model.addAttribute("totalPrice", totalPrice);
+        model.addAttribute("cart", cart);
+
         return "client/cart/show";
     }
-    
-    
-    
     
 }

@@ -50,7 +50,7 @@
 
                     <!-- Cart Page Start -->
                     <div class="container-fluid py-5">
-                        <div class="container py-5">
+                        <div class="container" style="padding-top: 120px;">
                             <div class="mb-3">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
@@ -63,6 +63,7 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
+                                            <!-- <th scope="col">Chọn</th> -->
                                             <th scope="col">Sản phẩm</th>
                                             <th scope="col">Tên</th>
                                             <th scope="col">Giá cả</th>
@@ -82,6 +83,16 @@
                                         <c:forEach var="cartDetail" items="${cartDetails}" varStatus="status">
 
                                             <tr>
+                                                <!-- <td style="align-content: center; padding-left: 18px">
+                                                    <input type="checkbox" 
+                                                        class="form-check-input product-checkbox" 
+                                                        name="selectedProducts" 
+                                                        value="${cartDetail.id}" 
+                                                        data-price="${cartDetail.price}" 
+                                                        data-quantity="${cartDetail.quantity}" 
+                                                        id="${cartDetail.id}" />
+                                                </td> -->
+
                                                 <th scope="row">
                                                     <div class="d-flex align-items-center">
                                                         <img src="/images/product/${cartDetail.product.image}"
