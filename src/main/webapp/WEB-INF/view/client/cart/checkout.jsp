@@ -50,7 +50,7 @@
 
                     <!-- Cart Page Start -->
                     <div class="container-fluid py-5">
-                        <div class="container py-5">
+                        <div class="container" style="padding-top: 120px;">
                             <div class="mb-3">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
