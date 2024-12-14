@@ -1,5 +1,6 @@
 package com.DatLeo.LapTopShop.controller.client;
 
+import java.net.http.HttpRequest;
 import java.util.List;
 import java.util.Optional;
 
@@ -14,12 +15,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.DatLeo.LapTopShop.domain.Order;
 import com.DatLeo.LapTopShop.domain.Product;
 import com.DatLeo.LapTopShop.domain.User;
 import com.DatLeo.LapTopShop.domain.dto.RegisterDTO;
+import com.DatLeo.LapTopShop.service.OrderService;
 import com.DatLeo.LapTopShop.service.ProductService;
 import com.DatLeo.LapTopShop.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,11 +37,13 @@ public class HomePageController {
     private final ProductService productService;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final OrderService orderService;
 
-    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder){
+    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder, OrderService orderService){
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
+        this.orderService = orderService;
     }
     
     @GetMapping("/")
@@ -90,8 +97,6 @@ public class HomePageController {
     }
     
     
-    
-
     @GetMapping("/products")
     public String getMethodName(Model model, @RequestParam("page") Optional<String> optionalPage) {
 
@@ -114,6 +119,23 @@ public class HomePageController {
         model.addAttribute("totalPages", prs.getTotalPages());
         return "client/product/show";
     }
+
+    @GetMapping("/order-history")
+    public String getOrderHistoryPage(Model model, HttpServletRequest request) {
+
+        // Get user to Session
+        User currentUser = new User();
+        HttpSession session = request.getSession();
+        long id = (long) session.getAttribute("id");
+        currentUser.setId(id);
+
+        // Get list order = user
+        List<Order> listOrders = this.orderService.getOrderByUser(currentUser);
+        model.addAttribute("orders", listOrders);
+
+        return "client/cart/order-history";
+    }
+    
     
     
 }

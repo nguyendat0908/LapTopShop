@@ -50,7 +50,7 @@
 
                     <!-- Cart Page Start -->
                     <div class="container-fluid py-5">
-                        <div class="container py-5">
+                        <div class="container" style="padding-top: 120px;">
                             <div class="mb-3">
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb">
@@ -72,16 +72,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <c:if test="${ empty cartDetails}">
+                                        <!-- <c:if test="${ empty cartDetails}">
                                             <tr>
                                                 <td colspan="6">
                                                     Không có sản phẩm trong giỏ hàng
                                                 </td>
                                             </tr>
-                                        </c:if>
+                                        </c:if> -->
                                         <c:forEach var="order" items="${orders}" varStatus="status">
                                             <tr>
-                                                <td colspan="2"> Order Id = ${order.id} </td>
+                                                <td colspan="2"></td>
                                                 <td colspan="1">
                                                     <fmt:formatNumber type="number" value="${order.totalPrice}" /> đ
                                                 </td>

@@ -113,6 +113,7 @@
                                                                 class="text-dark fw-bold mb-3">
                                                                 <fmt:formatNumber type="number" value="${product.price}"/> đ
                                                             </p>
+                                                            <p style="font-size: 13px;" class="text-primary">Sản phẩm còn lại ${product.sold - product.quantity}</p>
                                                             <form action="/add-product-to-cart/${product.id}" method="post">
                                                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
         
@@ -157,10 +158,15 @@
                                         class="text-dark fw-bold mb-3">
                                         <fmt:formatNumber type="number" value="${product.price}"/> đ
                                     </p>
-                                    <button data-product-id="${product.id}"
-                                                class="btnAddToCartHomepage mx-auto btn border border-secondary rounded-pill px-3 text-primary">
-                                                <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
-                                    </button>
+                                    <p style="font-size: 13px;" class="text-primary">Sản phẩm còn lại ${product.sold - product.quantity}</p>
+                                    <form action="/add-product-to-cart/${product.id}" method="post">
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+                                        <button
+                                            class="mx-auto btn border border-secondary rounded-pill px-3 text-primary"><i
+                                                class="fa fa-shopping-bag me-2 text-primary"></i>
+                                            Add to cart
+                                        </button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
