@@ -32,6 +32,13 @@
 
         <!-- Template Stylesheet -->
         <link href="/client/css/style.css" rel="stylesheet">
+        <meta name="_csrf" content="${_csrf.token}" />
+            <!-- default header name is X-CSRF-TOKEN -->
+            <meta name="_csrf_header" content="${_csrf.headerName}" />
+
+            <!-- Hiệu ứng thêm vào giỏ hàng sử dụng thư viện-->
+            <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css"
+                    rel="stylesheet">
         <style>
             .page-link.disabled {
                 color: var(--bs-pagination-disabled-color);
@@ -281,17 +288,14 @@
                                                             đ
                                                         </p>
                                                         <p style="font-size: 13px;" class="text-primary">Sản phẩm còn lại ${product.sold - product.quantity}</p>
-                                                        <form action="/add-product-to-cart/${product.id}"
-                                                            method="post">
-                                                            <input type="hidden" name="${_csrf.parameterName}"
-                                                                value="${_csrf.token}" />
-        
-                                                            <button
-                                                                class="mx-auto btn border border-secondary rounded-pill px-3 text-primary"><i
-                                                                    class="fa fa-shopping-bag me-2 text-primary"></i>
-                                                                Add to cart
+                                                        <!-- <form action="/add-product-to-cart/${product.id}" method="post">
+                                                                    <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/> -->
+                                                            <button data-product-id="${product.id}"
+                                                            class="btnAddToCartHomepage mx-auto btn border border-secondary rounded-pill px-3 text-primary"><i
+                                                            class="fa fa-shopping-bag me-2 text-primary"></i>
+                                                            Add to cart
                                                             </button>
-                                                        </form>
+                                                        <!-- </form> -->
                                                     </div>
                                                 </div>
                                             </div>
@@ -347,6 +351,7 @@
 
     <!-- Template Javascript -->
     <script src="/client/js/main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
     </body>
 
 </html>

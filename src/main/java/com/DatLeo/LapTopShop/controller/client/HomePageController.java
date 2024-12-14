@@ -1,12 +1,14 @@
 package com.DatLeo.LapTopShop.controller.client;
 
 import java.net.http.HttpRequest;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.DatLeo.LapTopShop.domain.Order;
 import com.DatLeo.LapTopShop.domain.Product;
+import com.DatLeo.LapTopShop.domain.Product_;
 import com.DatLeo.LapTopShop.domain.User;
+import com.DatLeo.LapTopShop.domain.dto.ProductCriteriaDTO;
 import com.DatLeo.LapTopShop.domain.dto.RegisterDTO;
 import com.DatLeo.LapTopShop.service.OrderService;
 import com.DatLeo.LapTopShop.service.ProductService;
@@ -29,8 +33,6 @@ import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
-
-
 @Controller
 public class HomePageController {
 
@@ -39,13 +41,14 @@ public class HomePageController {
     private final PasswordEncoder passwordEncoder;
     private final OrderService orderService;
 
-    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder, OrderService orderService){
+    public HomePageController(ProductService productService, UserService userService, PasswordEncoder passwordEncoder,
+            OrderService orderService) {
         this.productService = productService;
         this.userService = userService;
         this.passwordEncoder = passwordEncoder;
         this.orderService = orderService;
     }
-    
+
     @GetMapping("/")
     public String getHomePage(Model model) {
 
@@ -65,13 +68,14 @@ public class HomePageController {
     }
 
     @PostMapping("/register")
-    public String handleRegister(@ModelAttribute("registerUser") @Valid RegisterDTO registerDTO, BindingResult bindingResult) {
+    public String handleRegister(@ModelAttribute("registerUser") @Valid RegisterDTO registerDTO,
+            BindingResult bindingResult) {
 
         // Validate
         if (bindingResult.hasErrors()) {
             return "client/auth/register";
         }
-        
+
         User user = this.userService.registerDTOtoUser(registerDTO);
 
         String hashPassword = this.passwordEncoder.encode(user.getPassword());
@@ -92,31 +96,52 @@ public class HomePageController {
 
     @GetMapping("/access-deny")
     public String getDenyPage(Model model) {
-        
+
         return "client/auth/deny";
     }
-    
-    
+
     @GetMapping("/products")
-    public String getMethodName(Model model, @RequestParam("page") Optional<String> optionalPage) {
+    public String getProductPage(Model model, ProductCriteriaDTO productCriteriaDTO, HttpServletRequest request) {
 
         int page = 1;
-
         try {
-            if (optionalPage.isPresent()) {
-                page = Integer.parseInt(optionalPage.get());
+            if (productCriteriaDTO.getPage().isPresent()) {
+                // Convert from String to int
+                page = Integer.parseInt(productCriteriaDTO.getPage().get());
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            // TODO: handle exception
         }
 
+        // Check sort
         Pageable pageable = PageRequest.of(page - 1, 9);
-        Page<Product> prs = this.productService.getAllProductPage(pageable);
-        List<Product> products = prs.getContent();
+        if (productCriteriaDTO.getSort() != null && productCriteriaDTO.getSort().isPresent()) {
+            String sort = productCriteriaDTO.getSort().get();
+            if (sort.equals("gia-tang-dan")) {
+                pageable = PageRequest.of(page - 1, 9, Sort.by(Product_.PRICE).ascending());
+            } else if (sort.equals("gia-giam-dan")) {
+                pageable = PageRequest.of(page - 1, 9, Sort.by(Product_.PRICE).descending());
+            }
+        }
 
-        model.addAttribute("products", products);
+        Page<Product> prs = this.productService.getAllProductsWithSpec(pageable, productCriteriaDTO);
+
+        // Lấy danh sách sản phẩm nếu có thì hiển thị ra còn nếu không có thì trả về
+        // mảng rỗng
+        List<Product> listProducts = prs.getContent().size() > 0 ? prs.getContent() : new ArrayList<Product>();
+
+        String qs = request.getQueryString();
+        if (qs != null && !qs.isBlank()) {
+            // Remove page
+            qs = qs.replace("page=" + page, "");
+        }
+
+        // Get current page
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", prs.getTotalPages());
+        model.addAttribute("products", listProducts);
+        model.addAttribute("queryString", qs);
+
         return "client/product/show";
     }
 
@@ -135,7 +160,5 @@ public class HomePageController {
 
         return "client/cart/order-history";
     }
-    
-    
-    
+
 }
