@@ -13,11 +13,17 @@
       <i class="fas fa-bars"></i>
     </button>
     <!-- Navbar Search-->
-    <form
-      class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0"
-    >
-      <span style="color: white">Welcome, DatLeo</span>
-    </form>
+    <form class="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
+      <div class="d-flex m-3 me-0">
+          <!--Nếu mà có thông tin đăng nhập người dùng thì mới hiển thị khối code bên trong-->
+          <c:if test="${not empty pageContext.request.userPrincipal}">
+              <div class="text-center my-3" style="color: white;">
+                  <!--In ra thông tin người dùng khi đăng nhập thành công-->
+                  <c:out value="${pageContext.request.userPrincipal.name}"/>
+              </div>
+          </c:if>
+      </div>
+  </form>
     <!-- Navbar-->
     <ul class="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
       <li class="nav-item dropdown">
@@ -34,7 +40,12 @@
           class="dropdown-menu dropdown-menu-end"
           aria-labelledby="navbarDropdown"
         >
-          <li><a class="dropdown-item" href="#!">Logout</a></li>
+          <li>
+            <form method="post" action="/logout">
+              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+              <button class="dropdown-item">Đăng xuất</button>
+          </form>
+          </li>
         </ul>
       </li>
     </ul>

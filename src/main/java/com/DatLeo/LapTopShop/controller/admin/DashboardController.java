@@ -20,9 +20,11 @@ public class DashboardController {
 
         long countProduct = this.dashboardService.countProducts();
         long countUser = this.dashboardService.countUsers();
+        long countOrder = this.dashboardService.countOrders();
 
         model.addAttribute("countProduct", countProduct);
         model.addAttribute("countUser", countUser);
+        model.addAttribute("countOrder", countOrder);
 
         return "admin/dashboard/show";
     }

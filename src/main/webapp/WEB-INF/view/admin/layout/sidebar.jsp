@@ -6,7 +6,7 @@
       <div class="sb-sidenav-menu">
         <div class="nav">
           <div class="sb-sidenav-menu-heading">Features</div>
-          <a class="nav-link" href="/admin/dashboard">
+          <a class="nav-link" href="/admin">
             <div class="sb-nav-link-icon">
               <i class="fas fa-tachometer-alt"></i>
             </div>
@@ -34,7 +34,6 @@
             Order
           </a>
 
-          <div class="sb-sidenav-menu-heading">Interface</div>
 
           <a
             class="nav-link collapsed"
@@ -109,9 +108,9 @@
                 data-bs-parent="#sidenavAccordionPages"
               >
                 <nav class="sb-sidenav-menu-nested nav">
-                  <a class="nav-link" href="401.html">401 Page</a>
-                  <a class="nav-link" href="404.html">404 Page</a>
-                  <a class="nav-link" href="500.html">500 Page</a>
+                  <a class="nav-link" href="/error/401">401 Page</a>
+                  <a class="nav-link" href="/error/404">404 Page</a>
+                  <a class="nav-link" href="/error/500">500 Page</a>
                 </nav>
               </div>
               <a class="nav-link collapsed" href="/"> HomePage </a>
@@ -121,7 +120,10 @@
       </div>
       <div class="sb-sidenav-footer">
         <div class="small">Logged in as:</div>
-        DatLeo
+        <div class="" style="color: rgba(255, 255, 255, 0.555);">
+          <!--In ra thông tin người dùng khi đăng nhập thành công-->
+          <c:out value="${pageContext.request.userPrincipal.name}"/>
+      </div>
       </div>
     </nav>
   </div>
