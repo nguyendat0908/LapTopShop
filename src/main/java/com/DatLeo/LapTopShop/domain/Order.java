@@ -23,11 +23,22 @@ public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     long id;
+
     double totalPrice;
+
     String receiverName;
+
     String receiverAddress;
+
     String receiverPhone;
+
     String status;
+
+    String paymentRef;
+    
+    String paymentStatus;
+
+    String paymentMethod;
 
     // ORDER one -> to many ORDER_DETAIL
     @OneToMany(mappedBy = "order")

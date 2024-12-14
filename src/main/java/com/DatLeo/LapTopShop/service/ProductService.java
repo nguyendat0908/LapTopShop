@@ -3,6 +3,7 @@ package com.DatLeo.LapTopShop.service;
 import java.io.File;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -14,7 +15,6 @@ import com.DatLeo.LapTopShop.domain.CartDetail;
 import com.DatLeo.LapTopShop.domain.Order;
 import com.DatLeo.LapTopShop.domain.OrderDetail;
 import com.DatLeo.LapTopShop.domain.Product;
-import com.DatLeo.LapTopShop.domain.Product_;
 import com.DatLeo.LapTopShop.domain.User;
 import com.DatLeo.LapTopShop.domain.dto.ProductCriteriaDTO;
 import com.DatLeo.LapTopShop.repository.CartDetailRepository;
@@ -234,7 +234,7 @@ public class ProductService {
     }
 
     public void handleProductOrder(User user, HttpSession session, String receiverName, String receiverAddress,
-            String receiverPhone) {
+            String receiverPhone, String paymentMethod, String uuid) {
 
         // Create orderDetail
         // Step 1: Get cart by user
@@ -249,6 +249,10 @@ public class ProductService {
             order.setReceiverAddress(receiverAddress);
             order.setReceiverPhone(receiverPhone);
             order.setStatus("PENDING");
+
+            order.setPaymentMethod(paymentMethod);
+            order.setPaymentStatus("PAYMENT_UNPAID");
+            order.setPaymentRef(paymentMethod.equals("COD") ? "UNKNOWN" : uuid);
 
             double sum = 0;
             for (CartDetail cartDetail : cartDetails) {
@@ -279,6 +283,16 @@ public class ProductService {
                 // Step 3: Update session
                 session.setAttribute("sum", 0);
             }
+        }
+    }
+
+    public void updatePaymentStatus(String paymentRef, String paymentStatus){
+        Optional<Order> orderOptional = this.orderRepository.findByPaymentRef(paymentRef);
+
+        if (orderOptional.isPresent()) {
+            Order order = orderOptional.get();
+            order.setPaymentStatus(paymentStatus);
+            this.orderRepository.save(order);
         }
     }
 
