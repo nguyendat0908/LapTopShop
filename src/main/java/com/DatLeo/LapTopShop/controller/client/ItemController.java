@@ -1,8 +1,11 @@
 package com.DatLeo.LapTopShop.controller.client;
 
+import java.io.UnsupportedEncodingException;
 import java.net.http.HttpRequest;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,6 +21,7 @@ import com.DatLeo.LapTopShop.domain.CartDetail;
 import com.DatLeo.LapTopShop.domain.Product;
 import com.DatLeo.LapTopShop.domain.User;
 import com.DatLeo.LapTopShop.service.ProductService;
+import com.DatLeo.LapTopShop.service.VNPayService;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -25,17 +29,17 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
 @Controller
 public class ItemController {
 
     private final ProductService productService;
+    private final VNPayService vnPayService;
 
-    public ItemController(ProductService productService){
+    public ItemController(ProductService productService, VNPayService vnPayService) {
         this.productService = productService;
+        this.vnPayService = vnPayService;
     }
-    
+
     @GetMapping("/product/{id}")
     public String getMethodName(Model model, @PathVariable long id) {
 
@@ -65,7 +69,7 @@ public class ItemController {
     public String addProductToCart(@PathVariable long id, HttpServletRequest request) {
 
         HttpSession session = request.getSession(false);
-        
+
         long productId = id;
         String email = (String) session.getAttribute("email");
         this.productService.handleAddProductToCart(email, productId, session, 1);
@@ -81,7 +85,7 @@ public class ItemController {
     @GetMapping("/cart")
     public String getCartPage(Model model, HttpServletRequest request) {
 
-        User currentUser = new User(); 
+        User currentUser = new User();
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
@@ -108,13 +112,13 @@ public class ItemController {
 
         long cartDetailID = id;
         this.productService.handleRemoveCartDetail(cartDetailID, session);
-        
+
         return "redirect:/cart";
     }
-    
+
     @PostMapping("/confirm-checkout")
     public String postCheckOutPage(@ModelAttribute("cart") Cart cart) {
-        
+
         List<CartDetail> cartDetails = cart == null ? new ArrayList<CartDetail>() : cart.getCartDetails();
         this.productService.handleUpdateCartBeforeCheckout(cartDetails);
 
@@ -144,26 +148,47 @@ public class ItemController {
     }
 
     @PostMapping("/place-order")
-    public String handlePlaceOrder(HttpServletRequest request, 
-    @RequestParam("receiverName") String receiverName,
-    @RequestParam("receiverAddress") String receiverAddress,
-    @RequestParam("receiverPhone") String receiverPhone) {
+    public String handlePlaceOrder(HttpServletRequest request,
+            @RequestParam("receiverName") String receiverName,
+            @RequestParam("receiverAddress") String receiverAddress,
+            @RequestParam("receiverPhone") String receiverPhone,
+            @RequestParam("paymentMethod") String paymentMethod,
+            @RequestParam("totalPrice") String totalPrice) throws UnsupportedEncodingException {
 
         User currentUser = new User();// null
         HttpSession session = request.getSession(false);
         long id = (long) session.getAttribute("id");
         currentUser.setId(id);
 
-        this.productService.handleProductOrder(currentUser, session, receiverName, receiverAddress, receiverPhone);
+        final String uuid = UUID.randomUUID().toString().replace("-", "");
+
+        this.productService.handleProductOrder(currentUser, session, receiverName, receiverAddress, receiverPhone,
+                paymentMethod, uuid);
+
+        if (!paymentMethod.equals("COD")) {
+
+            String ip = this.vnPayService.getIpAddress(request);
+            String vnpUrl = this.vnPayService.generateVNPayURL(Double.parseDouble(totalPrice), uuid, ip);
+
+            return "redirect:" + vnpUrl;
+        }
 
         return "redirect:/thanks";
     }
 
     @GetMapping("/thanks")
-    public String getThankYouPage(Model model) {
+    public String getThankYouPage(Model model, @RequestParam("vnp_ResponseCode") Optional<String> vnpayResponseCode,
+            @RequestParam("vnp_TxnRef") Optional<String> paymentRef) {
+
+                if (vnpayResponseCode.isPresent() && paymentRef.isPresent()) {
+                    // Thanh toán qua VNPay, Cập nhật trạng thái Order
+                    String paymentStatus = vnpayResponseCode.get().equals("00") ? "PAYMENT_SUCCEED" : "PAYMENT_FAILED";
+                    this.productService.updatePaymentStatus(paymentRef.get(), paymentStatus);
+                }
+
         return "client/cart/thanks";
     }
-    
+
     @PostMapping("/add-product-from-view-detail")
     public String handleAddProductFromViewDetail(@RequestParam("id") long id,
             @RequestParam("quantity") long quantity, HttpServletRequest request) {
