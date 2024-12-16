@@ -40,34 +40,34 @@
                                                         <div class="col-md-6">
                                                             <div class="form-floating mb-3 mb-md-0">
                                                                 <form:input class="form-control ${not empty errorFirstName ? 'is-invalid' : ''}" path="firstName" type="text" placeholder="Enter your first name"/>
-                                                                <label for="inputFirstName">First name</label>
+                                                                <label style="color: #86bb23;" for="inputFirstName">First name</label>
                                                                 ${errorFirstName}
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-floating">
                                                                 <form:input class="form-control" id="inputLastName" type="text" placeholder="Enter your last name" path="lastName" />
-                                                                <label for="inputLastName">Last name</label>
+                                                                <label style="color: #86bb23;" for="inputLastName">Last name</label>
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div class="form-floating mb-3">
                                                         <form:input class="form-control ${not empty errorEmail ? 'is-invalid' : ''}" type="email" placeholder="name@example.com" path="email" />
-                                                        <label for="inputEmail">Email address</label>
+                                                        <label style="color: #86bb23;" for="inputEmail">Email address</label>
                                                         ${errorEmail}
                                                     </div>
                                                     <div class="row mb-3">
                                                         <div class="col-md-6">
                                                             <div class="form-floating mb-3 mb-md-0">
                                                                 <form:input class="form-control ${not empty errorPassword ? 'is-invalid' : ''}" type="password" placeholder="Create a password" path="password" />
-                                                                <label for="inputPassword">Password</label>
+                                                                <label style="color: #86bb23;" for="inputPassword">Password</label>
                                                                 ${errorPassword}
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-floating mb-3 mb-md-0">
                                                                 <form:input class="form-control" id="inputPasswordConfirm" type="password" placeholder="Confirm password" path="confirmPassword" />
-                                                                <label for="inputPasswordConfirm">Confirm Password</label>
+                                                                <label style="color: #86bb23;" for="inputPasswordConfirm">Confirm Password</label>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -81,7 +81,7 @@
                                                 </form:form>
                                             </div>
                                             <div class="card-footer text-center py-3">
-                                                <div class="small"><a href="login.html">Have an account? Go to login</a></div>
+                                                <div class="small"><a style="color: #86bb23;" href="login.html">Have an account? Go to login</a></div>
                                             </div>
                                         </div>
                                     </div>
