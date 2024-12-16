@@ -33,12 +33,12 @@
                                                     </c:if>
                                                     <div class="form-floating mb-3">
                                                         <input class="form-control" type="email" placeholder="name@example.com" name="username"/>
-                                                        <label>Email address</label>
+                                                        <label style="color: #86bb23;">Email address</label>
                                                     </div>
                                                     
                                                     <div class="form-floating mb-3">
                                                         <input class="form-control" type="password" placeholder="Create a password" name="password"/>
-                                                        <label>Password</label>
+                                                        <label style="color: #86bb23;">Password</label>
                                                     </div>
                                                     <div>
                                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -52,8 +52,19 @@
                                                     </div>
                                                 </form>
                                             </div>
+                                            <div>
+                                                <div style="text-align: center; color: #86bb23;"><span>Hoặc sử dụng</span></div>
+                                                <div class="d-flex justify-content-center align-items-center my-3" style="gap: 20px;">
+                                                    <a href="/oauth2/authorization/google" title="Đăng nhập với Google">
+                                                        <img style="border-radius: 50%;" height="40" width="40" src="/client/img/provider/google-logo.png" alt="#">
+                                                    </a>
+                                                    <a href="/oauth2/authorization/github" title="Đăng nhập với Github">
+                                                        <img height="40" width="40" src="/client/img/provider/github-logo.png" alt="#">
+                                                    </a>
+                                                </div>
+                                            </div>
                                             <div class="card-footer text-center py-3">
-                                                <div class="small"><a href="/register">Need an account? Sign up!</a></div>
+                                                <div class="small"><a style="color: #86bb23;" href="/register">Need an account? Sign up!</a></div>
                                             </div>
                                         </div>
                                     </div>

@@ -24,6 +24,10 @@ public class UserService {
         return this.userRepository.save(user);
     }
 
+    public void saveUser(User user){
+        this.userRepository.save(user);
+    }
+
     public Role getRoleByName(String name){
         return this.roleRepository.findRoleByName(name);
     }

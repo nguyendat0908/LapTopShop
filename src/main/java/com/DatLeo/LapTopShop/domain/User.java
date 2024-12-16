@@ -8,6 +8,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Data;
@@ -19,7 +20,6 @@ import jakarta.validation.constraints.Size;
 
 import java.util.*;
 
-import com.DatLeo.LapTopShop.service.validator.StrongPassword;
 
 @Entity
 @Table(name = "users")
@@ -47,6 +47,15 @@ public class User {
     String address;
     String phone;
     String avatar;
+
+    String provider;
+
+    @PrePersist
+    public void prePersist(){
+        if (this.provider == null) {
+            this.provider = "LOCAL";
+        }
+    }
 
     // USER one -> to many ORDER
     @OneToMany(mappedBy = "user")

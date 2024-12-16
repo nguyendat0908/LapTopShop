@@ -15,6 +15,7 @@ import org.springframework.session.security.web.authentication.SpringSessionReme
 
 import com.DatLeo.LapTopShop.service.CustomUserDetailsService;
 import com.DatLeo.LapTopShop.service.UserService;
+import com.DatLeo.LapTopShop.service.userInfo.CustomOAuth2UserService;
 
 import jakarta.servlet.DispatcherType;
 
@@ -62,15 +63,21 @@ public class SecurityConfig {
     }
 
     @Bean
-    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    SecurityFilterChain filterChain(HttpSecurity http, UserService userService) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .dispatcherTypeMatchers(DispatcherType.FORWARD, DispatcherType.INCLUDE).permitAll()
-                        .requestMatchers("/", "/login", "/product/**", "/client/**", "/css/**", "/js/**", "/images/**", "/products/**", "/register")
+                        .requestMatchers("/", "/login", "/product/**", "/client/**", "/css/**", "/js/**", "/images/**",
+                                "/products/**", "/register")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated())
-                        
+
+                .oauth2Login(oauth2 -> oauth2.loginPage("/login")
+                        .successHandler(customSuccessHandler())
+                        .failureUrl("/login?error")
+                        .userInfoEndpoint(user -> user.userService(new CustomOAuth2UserService(userService))))
+
                 // Config session
                 .sessionManagement((sessionManagement) -> sessionManagement
                         .sessionCreationPolicy(SessionCreationPolicy.ALWAYS) // Luôn tạo session mới
@@ -93,4 +100,3 @@ public class SecurityConfig {
         return http.build();
     }
 }
-
