@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 
@@ -53,6 +54,11 @@ public class SecurityConfig {
         return new CustomSuccessHandler();
     }
 
+    @Bean
+    public AuthenticationFailureHandler customFailureHandler(){
+        return new CustomOAuth2FailureHandler();
+    }
+
     // Config remember me
     @Bean
     public SpringSessionRememberMeServices rememberMeServices() {
@@ -75,7 +81,7 @@ public class SecurityConfig {
 
                 .oauth2Login(oauth2 -> oauth2.loginPage("/login")
                         .successHandler(customSuccessHandler())
-                        .failureUrl("/login?error")
+                        .failureHandler(customFailureHandler())
                         .userInfoEndpoint(user -> user.userService(new CustomOAuth2UserService(userService))))
 
                 // Config session

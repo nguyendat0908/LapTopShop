@@ -7,6 +7,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
 import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.oauth2.core.OAuth2Error;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,10 @@ import com.DatLeo.LapTopShop.service.UserService;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
-    
+
     private final UserService userService;
 
-    public CustomOAuth2UserService(UserService userService){
+    public CustomOAuth2UserService(UserService userService) {
         this.userService = userService;
     }
 
@@ -49,15 +50,31 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
                 oUser.setEmail(email);
                 oUser.setAvatar("google-logo.png");
                 oUser.setFullName(fullName);
-                oUser.setProvider("GOOGLE");
+                oUser.setProvider(
+                        registrationId.equalsIgnoreCase("github") ? "GITHUB" : "GOOGLE");
                 oUser.setPassword("null");
                 oUser.setRole(userRole);
 
                 this.userService.saveUser(oUser);
+            } else {
+                if (!user.getProvider().equalsIgnoreCase(registrationId)) {
+                    OAuth2Error error = new OAuth2Error("invalid_request",
+                            "Can't use this email address. Account already exist : " + email, null);
+                    throw new OAuth2AuthenticationException(error);
+                }
             }
         }
 
-        return new DefaultOAuth2User(Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + userRole.getName())), oAuth2User.getAttributes(), "email");
+        // Handler exception
+        if (email == null) {
+            OAuth2Error error = new OAuth2Error("Invalid_request",
+                    "Can't get email address. Maybe login with private email (Github)", null);
+            throw new OAuth2AuthenticationException(error);
+        }
+
+        return new DefaultOAuth2User(
+                Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + userRole.getName())),
+                oAuth2User.getAttributes(), "email");
     }
 
 }
